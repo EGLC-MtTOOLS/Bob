@@ -1,0 +1,214 @@
+:root {
+  --gradient-start: rgb(190, 75, 219);
+  --gradient-end: rgb(255, 122, 245);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: white;
+  overflow-x: hidden;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+  filter: blur(30px);
+  animation: gradientShift 10s ease-in-out infinite alternate;
+}
+
+.waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: wave 8s ease-in-out infinite alternate;
+  background: linear-gradient(45deg, 
+    rgba(190, 75, 219, 0.5), 
+    rgba(255, 122, 245, 0.5)
+  );
+  transform-origin: center;
+}
+
+.grain {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateY(-8%) scale(1.2) rotate(2deg);
+  }
+  25% {
+    transform: translateY(-4%) scale(1.15) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(0%) scale(1.1) rotate(1deg);
+  }
+  75% {
+    transform: translateY(4%) scale(1.15) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(8%) scale(1.2) rotate(1deg);
+  }
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -2%); }
+  20% { transform: translate(2%, 2%); }
+  30% { transform: translate(-1%, 1%); }
+  40% { transform: translate(1%, -1%); }
+  50% { transform: translate(-2%, 2%); }
+  60% { transform: translate(2%, -2%); }
+  70% { transform: translate(-1%, -1%); }
+  80% { transform: translate(1%, 1%); }
+  90% { transform: translate(-2%, 2%); }
+}
+
+@keyframes gradientShift {
+  0% {
+    --gradient-start: rgb(190, 75, 219);
+    --gradient-end: rgb(255, 122, 245);
+  }
+  50% {
+    --gradient-start: rgb(219, 75, 190);
+    --gradient-end: rgb(245, 122, 255);
+  }
+  100% {
+    --gradient-start: rgb(175, 75, 219);
+    --gradient-end: rgb(255, 122, 220);
+  }
+}
+
+.content {
+  position: relative;
+  padding: 2rem;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  animation: float 6s ease-in-out infinite;
+}
+
+p {
+  font-size: 1.5rem;
+  opacity: 0.8;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+#dice-container {
+  width: 600px;
+  height: 600px;
+  margin-bottom: -6rem;
+}
+
+.fancy-button {
+  position: relative;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #ff3e9d, #0E8AFF);
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.fancy-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+  transform: rotate(45deg);
+  transition: transform 0.5s;
+}
+
+.fancy-button:hover {
+  transform: translateY(-2px);
+}
+
+.fancy-button:hover::before {
+  transform: rotate(45deg) translateY(-50%);
+}
+
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+
+.button-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@keyframes particle {
+  0% {
+    transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(0);
+    opacity: 0;
+  }
+}
+
+.shockwave {
+  display: none;
+}
+
+@keyframes shockwave {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+    border-width: 2px;
+  }
+  100% {
+    width: 300vh;
+    height: 300vh;
+    opacity: 0;
+    border-width: 1px;
+  }
+}
